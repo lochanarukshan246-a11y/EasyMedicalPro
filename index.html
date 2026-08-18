@@ -1,0 +1,2350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Easy Medical Pro</title>
+
+<style>
+*{box-sizing:border-box}
+
+:root{
+ --bg:#06121d;
+ --panel:#0b1e2d;
+ --panel2:#102b3e;
+ --line:#27485b;
+ --text:#eef8fc;
+ --muted:#9bb2bf;
+ --accent:#36d5ff;
+ --green:#45d493;
+ --red:#ff6678;
+ --yellow:#ffd166;
+}
+
+body{
+ margin:0;
+ background:var(--bg);
+ color:var(--text);
+ font-family:Arial,Helvetica,sans-serif;
+}
+
+button,input,textarea{font:inherit}
+button{cursor:pointer}
+
+.app{
+ min-height:100vh;
+ padding-bottom:72px;
+}
+
+header{
+ position:sticky;
+ top:0;
+ z-index:100;
+ height:62px;
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ padding:0 14px;
+ background:#071b29;
+ border-bottom:1px solid var(--line);
+}
+
+.logo{
+ font-size:21px;
+ font-weight:bold;
+}
+
+.logo span{color:var(--accent)}
+
+.headerButtons{
+ display:flex;
+ gap:7px;
+}
+
+.iconBtn{
+ border:1px solid var(--line);
+ background:var(--panel2);
+ color:white;
+ border-radius:10px;
+ padding:8px 10px;
+}
+
+.page{
+ display:none;
+ padding:15px;
+}
+
+.page.active{display:block}
+
+h1{
+ font-size:25px;
+ margin:3px 0 6px;
+}
+
+h2{
+ font-size:19px;
+ margin:20px 0 10px;
+}
+
+h3{
+ margin:6px 0;
+ font-size:17px;
+}
+
+p{
+ line-height:1.55;
+}
+
+.sub{
+ color:var(--muted);
+ font-size:13px;
+ line-height:1.55;
+}
+
+.card{
+ background:var(--panel);
+ border:1px solid var(--line);
+ border-radius:16px;
+ padding:14px;
+ margin-bottom:10px;
+}
+
+.grid{
+ display:grid;
+ grid-template-columns:repeat(2,1fr);
+ gap:10px;
+}
+
+.cardButton{
+ width:100%;
+ color:white;
+ background:var(--panel);
+ border:1px solid var(--line);
+ border-radius:15px;
+ padding:14px;
+ text-align:left;
+}
+
+.cardButton:active{
+ transform:scale(.98);
+}
+
+.icon{
+ font-size:29px;
+}
+
+.small{
+ color:var(--muted);
+ font-size:11px;
+ line-height:1.5;
+}
+
+.badge{
+ display:inline-block;
+ padding:4px 7px;
+ border-radius:7px;
+ background:#12374b;
+ color:var(--accent);
+ font-size:10px;
+ margin:2px;
+}
+
+.action{
+ border:0;
+ border-radius:10px;
+ background:#1085a7;
+ color:white;
+ padding:10px 13px;
+}
+
+.action.secondary{
+ background:var(--panel2);
+ border:1px solid var(--line);
+}
+
+.action.full{
+ width:100%;
+ margin-top:8px;
+}
+
+.actions{
+ display:flex;
+ flex-wrap:wrap;
+ gap:7px;
+ margin-top:10px;
+}
+
+.search{
+ width:100%;
+ height:44px;
+ margin:12px 0;
+ padding:0 13px;
+ border-radius:12px;
+ border:1px solid var(--line);
+ background:#0b2537;
+ color:white;
+ outline:none;
+}
+
+/* HOME */
+
+.welcome{
+ padding:17px;
+ border-radius:18px;
+ background:linear-gradient(135deg,#0b3047,#101d38);
+ border:1px solid var(--line);
+}
+
+.progress{
+ width:100%;
+ height:9px;
+ background:#183346;
+ border-radius:10px;
+ overflow:hidden;
+}
+
+.progress div{
+ height:100%;
+ width:0;
+ background:var(--accent);
+ transition:.4s;
+}
+
+/* ANATOMY */
+
+.anatomyBox{
+ position:relative;
+ height:490px;
+ overflow:hidden;
+ border-radius:19px;
+ border:1px solid var(--line);
+ background:
+ radial-gradient(circle at 50% 40%,#173e57 0,#0a1b29 55%,#040d15 100%);
+ touch-action:none;
+}
+
+.modelTitle{
+ position:absolute;
+ top:10px;
+ left:10px;
+ z-index:20;
+}
+
+.model{
+ position:absolute;
+ left:50%;
+ top:50%;
+ width:180px;
+ height:420px;
+ transform:
+ translate(-50%,-48%)
+ rotateY(0deg)
+ scale(1);
+ transform-style:preserve-3d;
+ transition:transform .1s;
+}
+
+.head{
+ position:absolute;
+ width:76px;
+ height:83px;
+ left:52px;
+ top:0;
+ border-radius:50%;
+ background:linear-gradient(135deg,#e5ae98,#8f554e);
+}
+
+.neck{
+ position:absolute;
+ width:38px;
+ height:48px;
+ left:71px;
+ top:72px;
+ background:#ad6d60;
+}
+
+.torso{
+ position:absolute;
+ width:140px;
+ height:166px;
+ left:20px;
+ top:106px;
+ border-radius:48px 48px 32px 32px;
+ background:linear-gradient(90deg,#d79982,#8f564e);
+}
+
+.arm{
+ position:absolute;
+ top:111px;
+ width:34px;
+ height:163px;
+ border-radius:22px;
+ background:linear-gradient(90deg,#d99b83,#8d554e);
+}
+
+.armL{
+ left:-13px;
+ transform:rotate(5deg);
+}
+
+.armR{
+ right:-13px;
+ transform:rotate(-5deg);
+}
+
+.leg{
+ position:absolute;
+ top:254px;
+ width:51px;
+ height:163px;
+ border-radius:28px;
+ background:linear-gradient(90deg,#d79a83,#8b544e);
+}
+
+.legL{left:36px}
+.legR{right:36px}
+
+/* organs */
+
+.organ{
+ position:absolute;
+ display:none;
+ z-index:15;
+ cursor:pointer;
+ transition:.15s;
+}
+
+.organ.show{display:block}
+
+.organ.selected{
+ filter:brightness(1.45);
+ box-shadow:0 0 24px var(--accent);
+}
+
+/* brain */
+
+.brain{
+ left:57px;
+ top:18px;
+ width:66px;
+ height:47px;
+ border-radius:48% 52% 45% 55%;
+ background:
+ repeating-linear-gradient(
+  90deg,
+  #c889b5 0,
+  #c889b5 7px,
+  #9d6791 8px,
+  #c889b5 12px
+ );
+}
+
+/* heart */
+
+.heart{
+ left:69px;
+ top:145px;
+ width:43px;
+ height:46px;
+ background:#d8324a;
+ transform:rotate(-45deg);
+ border-radius:50% 45% 45% 20%;
+}
+
+.heart:before,
+.heart:after{
+ content:"";
+ position:absolute;
+ background:#d8324a;
+ border-radius:50%;
+}
+
+.heart:before{
+ width:39px;
+ height:39px;
+ top:-19px;
+ left:1px;
+}
+
+.heart:after{
+ width:39px;
+ height:39px;
+ left:20px;
+ top:2px;
+}
+
+/* lungs */
+
+.lung{
+ width:38px;
+ height:73px;
+ top:132px;
+ background:#c87591;
+ border-radius:52% 48% 48% 52%;
+}
+
+.lungL{left:45px}
+.lungR{left:94px}
+
+/* liver */
+
+.liver{
+ left:62px;
+ top:191px;
+ width:76px;
+ height:39px;
+ border-radius:60% 40% 45% 50%;
+ background:#74382a;
+}
+
+/* stomach */
+
+.stomach{
+ left:66px;
+ top:200px;
+ width:46px;
+ height:60px;
+ border-radius:55% 28% 50% 45%;
+ background:#c8754d;
+}
+
+/* kidneys */
+
+.kidney{
+ width:28px;
+ height:43px;
+ top:212px;
+ border-radius:55% 45% 50% 50%;
+ background:#913e4c;
+}
+
+.kidneyL{left:43px}
+.kidneyR{left:107px}
+
+/* pancreas */
+
+.pancreas{
+ left:69px;
+ top:251px;
+ width:65px;
+ height:16px;
+ border-radius:50%;
+ background:#d2a158;
+}
+
+/* intestine */
+
+.intestine{
+ left:54px;
+ top:257px;
+ width:72px;
+ height:72px;
+ border:9px solid #bd7656;
+ border-radius:45%;
+}
+
+/* model controls */
+
+.modelControls{
+ position:absolute;
+ bottom:10px;
+ left:10px;
+ right:10px;
+ z-index:30;
+ display:flex;
+ justify-content:center;
+ gap:6px;
+}
+
+.modelControls button{
+ border:1px solid var(--line);
+ background:#102d40;
+ color:white;
+ border-radius:9px;
+ padding:8px 10px;
+}
+
+.zoomText{
+ position:absolute;
+ right:10px;
+ top:10px;
+ z-index:20;
+ color:#9bb2bf;
+ font-size:11px;
+}
+
+/* ORGAN DETAILS */
+
+.detailPanel{
+ margin-top:11px;
+ background:var(--panel);
+ border:1px solid var(--line);
+ border-radius:17px;
+ padding:15px;
+}
+
+.detailTitle{
+ display:flex;
+ gap:10px;
+ align-items:center;
+}
+
+.detailIcon{
+ font-size:34px;
+}
+
+.detailSection{
+ margin-top:14px;
+ padding-top:12px;
+ border-top:1px solid #203b4c;
+}
+
+.detailSection h4{
+ margin:0 0 7px;
+ color:var(--accent);
+ font-size:14px;
+}
+
+.detailSection p{
+ margin:0;
+ color:#d7e6ec;
+ font-size:13px;
+ line-height:1.65;
+ white-space:pre-line;
+}
+
+.functionBox{
+ padding:11px;
+ border-radius:11px;
+ background:#102e40;
+ margin-top:8px;
+ font-size:13px;
+ line-height:1.55;
+}
+
+.warning{
+ border-left:3px solid var(--yellow);
+ padding-left:10px;
+ color:#dbe8ed;
+}
+
+/* SYSTEMS */
+
+.systemCard{
+ margin-bottom:10px;
+}
+
+.systemTop{
+ display:flex;
+ gap:11px;
+ align-items:center;
+}
+
+.topicTags{
+ margin-top:9px;
+}
+
+/* QUIZ */
+
+.option{
+ width:100%;
+ display:block;
+ text-align:left;
+ margin:7px 0;
+ padding:12px;
+ border-radius:11px;
+ border:1px solid var(--line);
+ background:#102a3d;
+ color:white;
+}
+
+.option.correct{
+ background:#174d3a;
+ border-color:var(--green);
+}
+
+.option.wrong{
+ background:#542832;
+ border-color:var(--red);
+}
+
+.score{
+ font-size:35px;
+ text-align:center;
+ padding:20px;
+}
+
+/* FLASHCARD */
+
+.flashcard{
+ min-height:235px;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ text-align:center;
+ font-size:20px;
+ line-height:1.55;
+}
+
+/* NOTES */
+
+textarea{
+ width:100%;
+ min-height:250px;
+ background:#0b2537;
+ border:1px solid var(--line);
+ border-radius:13px;
+ color:white;
+ padding:13px;
+ outline:none;
+}
+
+/* BOTTOM */
+
+nav{
+ position:fixed;
+ left:0;
+ right:0;
+ bottom:0;
+ height:68px;
+ background:#071b29;
+ border-top:1px solid var(--line);
+ z-index:100;
+ display:grid;
+ grid-template-columns:repeat(5,1fr);
+}
+
+.navBtn{
+ border:0;
+ background:transparent;
+ color:#8fa7b4;
+ font-size:10px;
+}
+
+.navBtn.active{
+ color:var(--accent);
+}
+
+.navIcon{
+ display:block;
+ font-size:20px;
+ margin-bottom:2px;
+}
+
+/* MODAL */
+
+.modal{
+ display:none;
+ position:fixed;
+ inset:0;
+ z-index:300;
+ background:rgba(0,0,0,.75);
+ align-items:flex-end;
+}
+
+.modal.open{
+ display:flex;
+}
+
+.sheet{
+ width:100%;
+ max-height:90vh;
+ overflow:auto;
+ background:#091d2b;
+ border-top:1px solid var(--line);
+ border-radius:20px 20px 0 0;
+ padding:17px;
+}
+
+.close{
+ float:right;
+ border:0;
+ background:#284050;
+ color:white;
+ padding:7px 10px;
+ border-radius:8px;
+}
+
+/* animations */
+
+.heartbeat{
+ animation:heartBeat .65s infinite;
+}
+
+.breathe{
+ animation:breathe 2s infinite;
+}
+
+.brainPulse{
+ animation:brainPulse 1s infinite;
+}
+
+@keyframes heartBeat{
+ 0%,100%{scale:1}
+ 45%{scale:1.18}
+}
+
+@keyframes breathe{
+ 0%,100%{scale:1}
+ 50%{scale:1.13}
+}
+
+@keyframes brainPulse{
+ 0%,100%{box-shadow:0 0 5px #c889b5}
+ 50%{box-shadow:0 0 30px #f0a9d9}
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<header>
+
+<div class="logo">
+Easy <span>Medical</span> 🩺
+</div>
+
+<div class="headerButtons">
+<button class="iconBtn" onclick="openNotes()">📝</button>
+<button class="iconBtn" onclick="toggleTheme()">☀️</button>
+</div>
+
+</header>
+
+
+<!-- HOME -->
+
+<section id="home" class="page active">
+
+<div class="welcome">
+
+<h1>Medical Student Hub</h1>
+
+<div class="sub">
+Interactive anatomy • body systems • physiology •
+revision • MCQs • notes • educational resources
+</div>
+
+<h3 style="margin-top:16px">Study Progress</h3>
+
+<div id="progressText">0%</div>
+
+<div class="progress">
+<div id="progressBar"></div>
+</div>
+
+</div>
+
+
+<h2>Explore</h2>
+
+<div class="grid">
+
+<button class="cardButton" onclick="showPage('anatomy')">
+<div class="icon">🧍</div>
+<h3>Advanced Anatomy</h3>
+<div class="small">
+Touch organs for detailed information
+</div>
+</button>
+
+<button class="cardButton" onclick="showPage('systems')">
+<div class="icon">🫀</div>
+<h3>Body Systems</h3>
+<div class="small">
+System-based revision
+</div>
+</button>
+
+<button class="cardButton" onclick="showPage('quiz')">
+<div class="icon">🧠</div>
+<h3>MCQ Practice</h3>
+<div class="small">
+Test your knowledge
+</div>
+</button>
+
+<button class="cardButton" onclick="showPage('resources')">
+<div class="icon">🎥</div>
+<h3>Video Resources</h3>
+<div class="small">
+Open educational searches
+</div>
+</button>
+
+</div>
+
+
+<h2>Popular Anatomy</h2>
+
+<div class="grid">
+
+<button class="cardButton" onclick="openOrgan('brain')">
+🧠 Brain
+</button>
+
+<button class="cardButton" onclick="openOrgan('heart')">
+❤️ Heart
+</button>
+
+<button class="cardButton" onclick="openOrgan('lungs')">
+🫁 Lungs
+</button>
+
+<button class="cardButton" onclick="openOrgan('liver')">
+🟤 Liver
+</button>
+
+<button class="cardButton" onclick="openOrgan('kidneys')">
+🫘 Kidneys
+</button>
+
+<button class="cardButton" onclick="openOrgan('stomach')">
+🟠 Stomach
+</button>
+
+</div>
+
+</section>
+
+
+<!-- ANATOMY -->
+
+<section id="anatomy" class="page">
+
+<h1>🧍 Advanced Anatomy</h1>
+
+<div class="sub">
+Tap an organ to open its detailed study card.
+Drag the model to rotate it.
+</div>
+
+<div class="anatomyBox">
+
+<div class="modelTitle">
+<span class="badge">INTERACTIVE MODEL</span>
+</div>
+
+<div class="zoomText">
+Drag = Rotate
+</div>
+
+<div id="model" class="model">
+
+<div class="head"></div>
+<div class="neck"></div>
+<div class="torso"></div>
+
+<div class="arm armL"></div>
+<div class="arm armR"></div>
+
+<div class="leg legL"></div>
+<div class="leg legR"></div>
+
+<div class="organ brain"
+data-organ="brain"
+onclick="selectOrgan('brain')"></div>
+
+<div class="organ heart"
+data-organ="heart"
+onclick="selectOrgan('heart')"></div>
+
+<div class="organ lung lungL"
+data-organ="lungs"
+onclick="selectOrgan('lungs')"></div>
+
+<div class="organ lung lungR"
+data-organ="lungs"
+onclick="selectOrgan('lungs')"></div>
+
+<div class="organ liver"
+data-organ="liver"
+onclick="selectOrgan('liver')"></div>
+
+<div class="organ stomach"
+data-organ="stomach"
+onclick="selectOrgan('stomach')"></div>
+
+<div class="organ kidney kidneyL"
+data-organ="kidneys"
+onclick="selectOrgan('kidneys')"></div>
+
+<div class="organ kidney kidneyR"
+data-organ="kidneys"
+onclick="selectOrgan('kidneys')"></div>
+
+<div class="organ pancreas"
+data-organ="pancreas"
+onclick="selectOrgan('pancreas')"></div>
+
+<div class="organ intestine"
+data-organ="intestine"
+onclick="selectOrgan('intestine')"></div>
+
+</div>
+
+<div class="modelControls">
+<button onclick="showOrgans()">🫀 Organs</button>
+<button onclick="hideOrgans()">🧍 Body</button>
+<button onclick="zoomModel(0.12)">＋</button>
+<button onclick="zoomModel(-0.12)">−</button>
+<button onclick="resetModel()">↺</button>
+</div>
+
+</div>
+
+
+<div id="detailPanel" class="detailPanel">
+
+<div class="detailTitle">
+
+<div id="detailIcon" class="detailIcon">
+🧍
+</div>
+
+<div>
+<h2 id="detailName">Human Body</h2>
+<span id="detailSystem" class="badge">
+GENERAL ANATOMY
+</span>
+</div>
+
+</div>
+
+<div class="detailSection">
+
+<h4>📍 Location</h4>
+
+<p id="detailLocation">
+Select an organ from the model.
+</p>
+
+</div>
+
+<div class="detailSection">
+
+<h4>🔬 Anatomy</h4>
+
+<p id="detailAnatomy">
+The organ's anatomical structures will appear here.
+</p>
+
+</div>
+
+<div class="detailSection">
+
+<h4>⚙️ Functions</h4>
+
+<p id="detailFunction">
+The organ's major functions will appear here.
+</p>
+
+</div>
+
+<div class="detailSection">
+
+<h4>🩸 Blood Supply</h4>
+
+<p id="detailBlood">
+Blood supply information will appear here.
+</p>
+
+</div>
+
+<div class="detailSection">
+
+<h4>🧠 Physiology</h4>
+
+<p id="detailPhysiology">
+Physiology information will appear here.
+</p>
+
+</div>
+
+<div class="detailSection">
+
+<h4>🩺 Clinical Relevance</h4>
+
+<p id="detailClinical" class="warning">
+Clinical information will appear here.
+</p>
+
+</div>
+
+<div class="detailSection">
+
+<h4>⭐ Key Points</h4>
+
+<p id="detailPoints">
+Key examination points will appear here.
+</p>
+
+</div>
+
+<div class="actions">
+
+<button
+id="functionButton"
+class="action"
+onclick="animateOrgan()">
+▶ Show Function
+</button>
+
+<button
+id="youtubeButton"
+class="action secondary"
+onclick="openVideo()">
+🎥 YouTube
+</button>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- SYSTEMS -->
+
+<section id="systems" class="page">
+
+<h1>📚 Body Systems</h1>
+
+<div class="sub">
+Study major systems and their important topics.
+</div>
+
+<input
+id="systemSearch"
+class="search"
+placeholder="🔎 Search system or topic...">
+
+<div id="systemList"></div>
+
+</section>
+
+
+<!-- QUIZ -->
+
+<section id="quiz" class="page">
+
+<h1>🧠 Medical MCQs</h1>
+
+<div class="sub">
+Educational revision questions. These are not a substitute for university teaching or clinical guidance.
+</div>
+
+<div class="card">
+
+<div id="quizCounter" class="small"></div>
+
+<h3 id="question"></h3>
+
+<div id="options"></div>
+
+<div id="feedback" class="sub"></div>
+
+<button
+id="nextBtn"
+class="action full"
+onclick="nextQuestion()">
+Next →
+</button>
+
+</div>
+
+</section>
+
+
+<!-- FLASHCARDS -->
+
+<section id="flashcards" class="page">
+
+<h1>🃏 Flashcards</h1>
+
+<div class="sub">
+Tap the card to reveal the answer.
+</div>
+
+<div
+id="flashCard"
+class="card flashcard"
+onclick="flipCard()">
+What is the functional unit of the kidney?
+</div>
+
+<div class="actions">
+
+<button class="action secondary" onclick="prevCard()">
+← Previous
+</button>
+
+<button class="action" onclick="flipCard()">
+Flip
+</button>
+
+<button class="action secondary" onclick="nextCard()">
+Next →
+</button>
+
+</div>
+
+</section>
+
+
+<!-- RESOURCES -->
+
+<section id="resources" class="page">
+
+<h1>🎥 Study Resources</h1>
+
+<div class="sub">
+Open educational searches in YouTube.
+</div>
+
+<input
+id="resourceSearch"
+class="search"
+placeholder="🔎 Search topic...">
+
+<div id="resourceList"></div>
+
+</section>
+
+
+<!-- NOTES -->
+
+<section id="notes" class="page">
+
+<h1>📝 My Notes</h1>
+
+<div class="sub">
+Notes are stored locally on this device.
+</div>
+
+<textarea
+id="notesArea"
+placeholder="Write your anatomy / physiology notes here..."></textarea>
+
+<button
+class="action full"
+onclick="saveNotes()">
+💾 Save Notes
+</button>
+
+<button
+class="action secondary full"
+onclick="clearNotes()">
+Clear Notes
+</button>
+
+</section>
+
+
+<!-- NAVIGATION -->
+
+<nav>
+
+<button class="navBtn active"
+data-page="home"
+onclick="showPage('home')">
+<span class="navIcon">🏠</span>
+Home
+</button>
+
+<button class="navBtn"
+data-page="anatomy"
+onclick="showPage('anatomy')">
+<span class="navIcon">🧍</span>
+Anatomy
+</button>
+
+<button class="navBtn"
+data-page="systems"
+onclick="showPage('systems')">
+<span class="navIcon">📚</span>
+Systems
+</button>
+
+<button class="navBtn"
+data-page="quiz"
+onclick="showPage('quiz')">
+<span class="navIcon">🧠</span>
+Quiz
+</button>
+
+<button class="navBtn"
+data-page="resources"
+onclick="showPage('resources')">
+<span class="navIcon">🎥</span>
+Resources
+</button>
+
+</nav>
+
+</div>
+
+
+<script>
+
+/* ============================================
+   ORGAN DATABASE
+============================================ */
+
+const organs={
+
+brain:{
+icon:"🧠",
+name:"Brain",
+system:"Nervous System",
+
+location:
+"Located inside the cranial cavity and protected by the skull, meninges and cerebrospinal fluid.",
+
+anatomy:
+"Cerebrum\n• Frontal lobe\n• Parietal lobe\n• Temporal lobe\n• Occipital lobe\n\nOther major structures\n• Cerebellum\n• Brainstem\n• Thalamus\n• Hypothalamus\n• Basal nuclei",
+
+function:
+"The brain receives, processes and integrates information. It participates in sensation, movement, memory, learning, language, emotion and regulation of many body functions.",
+
+blood:
+"Major arterial supply comes from the internal carotid and vertebrobasilar systems. The Circle of Willis provides an arterial connection at the base of the brain.",
+
+physiology:
+"Neurons communicate through electrical activity and chemical or electrical synapses. Different regions have specialized functions but operate as interconnected networks.",
+
+clinical:
+"Important clinical topics include stroke, traumatic brain injury, seizures, meningitis and disorders affecting specific neurological pathways.",
+
+points:
+"Know the major lobes, brainstem, cerebellum, basic blood supply and the difference between the central and peripheral nervous systems.",
+
+animation:"brain",
+
+youtube:
+"https://www.youtube.com/results?search_query=brain+anatomy+medical+students"
+},
+
+heart:{
+icon:"❤️",
+name:"Heart",
+system:"Cardiovascular System",
+
+location:
+"Located in the thoracic cavity within the mediastinum, between the lungs.",
+
+anatomy:
+"Four chambers\n• Right atrium\n• Right ventricle\n• Left atrium\n• Left ventricle\n\nValves\n• Tricuspid\n• Pulmonary\n• Mitral\n• Aortic",
+
+function:
+"The heart generates pressure to move blood through the pulmonary and systemic circulations.",
+
+blood:
+"The myocardium receives arterial blood mainly through the right and left coronary arteries. Venous blood returns through cardiac veins to the coronary sinus.",
+
+physiology:
+"Cardiac contraction is coordinated by electrical activity beginning in the sinoatrial node and travelling through the cardiac conduction system.",
+
+clinical:
+"Important topics include coronary artery disease, myocardial infarction, heart failure, arrhythmias and valvular disease.",
+
+points:
+"Remember blood flow direction: venae cavae → right atrium → right ventricle → pulmonary arteries → lungs → pulmonary veins → left atrium → left ventricle → aorta.",
+
+animation:"heart",
+
+youtube:
+"https://www.youtube.com/results?search_query=heart+anatomy+physiology+medical+students"
+},
+
+lungs:{
+icon:"🫁",
+name:"Lungs",
+system:"Respiratory System",
+
+location:
+"Located in the thoracic cavity on either side of the mediastinum.",
+
+anatomy:
+"Right lung\n• Three lobes\n\nLeft lung\n• Two lobes\n• Cardiac notch\n\nAirway\n• Trachea\n• Main bronchi\n• Bronchioles\n• Alveoli",
+
+function:
+"The lungs provide the main surface for oxygen and carbon dioxide exchange between inspired air and pulmonary blood.",
+
+blood:
+"Pulmonary arteries carry deoxygenated blood from the right ventricle to the lungs. Pulmonary veins return oxygenated blood to the left atrium.",
+
+physiology:
+"Ventilation moves air into and out of the lungs. Diffusion across the alveolar-capillary membrane allows gas exchange.",
+
+clinical:
+"Important topics include asthma, pneumonia, chronic obstructive pulmonary disease, pulmonary embolism and respiratory failure.",
+
+points:
+"Know the differences between the right and left lungs, airway branching and the basic mechanism of alveolar gas exchange.",
+
+animation:"lungs",
+
+youtube:
+"https://www.youtube.com/results?search_query=lung+anatomy+physiology+medical+students"
+},
+
+liver:{
+icon:"🟤",
+name:"Liver",
+system:"Digestive / Metabolic System",
+
+location:
+"Located mainly in the right upper quadrant of the abdomen, beneath the diaphragm.",
+
+anatomy:
+"Major anatomical features\n• Right lobe\n• Left lobe\n• Caudate lobe\n• Quadrate lobe\n• Porta hepatis\n• Gallbladder on the visceral surface",
+
+function:
+"Major functions include bile production, nutrient processing, metabolism, storage, synthesis of plasma proteins and detoxification of many substances.",
+
+blood:
+"The liver has a dual blood supply. The hepatic artery supplies oxygenated blood, while the portal vein brings nutrient-rich blood from the gastrointestinal tract.",
+
+physiology:
+"Hepatocytes perform many metabolic functions. Bile produced by hepatocytes contributes to digestion and absorption of dietary fats.",
+
+clinical:
+"Important topics include hepatitis, cirrhosis, fatty liver disease, portal hypertension and liver failure.",
+
+points:
+"Know the dual blood supply and the concept of portal circulation.",
+
+animation:null,
+
+youtube:
+"https://www.youtube.com/results?search_query=liver+anatomy+physiology+medical+students"
+},
+
+kidneys:{
+icon:"🫘",
+name:"Kidneys",
+system:"Urinary System",
+
+location:
+"Paired organs located on the posterior abdominal wall, approximately on either side of the vertebral column.",
+
+anatomy:
+"Major structures\n• Renal capsule\n• Cortex\n• Medulla\n• Renal pyramids\n• Papillae\n• Calyces\n• Renal pelvis\n• Ureter\n\nFunctional unit\n• Nephron",
+
+function:
+"Kidneys filter blood and contribute to regulation of water, electrolytes, acid-base balance and blood pressure. They also have endocrine functions.",
+
+blood:
+"Renal arteries arise from the abdominal aorta. Renal veins drain into the inferior vena cava.",
+
+physiology:
+"Urine formation involves filtration, tubular reabsorption and tubular secretion. The nephron is the functional unit of the kidney.",
+
+clinical:
+"Important topics include acute kidney injury, chronic kidney disease, urinary stones, glomerular disease and electrolyte disturbances.",
+
+points:
+"Know the nephron, glomerulus, renal tubules, filtration and the role of the kidney in homeostasis.",
+
+animation:null,
+
+youtube:
+"https://www.youtube.com/results?search_query=kidney+nephron+physiology+medical+students"
+},
+
+stomach:{
+icon:"🟠",
+name:"Stomach",
+system:"Digestive System",
+
+location:
+"Located mainly in the upper abdomen, between the oesophagus and duodenum.",
+
+anatomy:
+"Regions\n• Cardia\n• Fundus\n• Body\n• Pyloric part\n\nCurvatures\n• Lesser curvature\n• Greater curvature",
+
+function:
+"Stores food, mixes it mechanically and contributes to digestion. Gastric secretions include acid and enzymes.",
+
+blood:
+"Receives arterial blood from branches of the coeliac trunk, including gastric and gastro-omental vessels.",
+
+physiology:
+"Parietal cells produce hydrochloric acid and intrinsic factor. Chief cells produce pepsinogen. Gastric movement helps mix food.",
+
+clinical:
+"Important topics include gastritis, peptic ulcer disease, gastro-oesophageal reflux and gastric malignancy.",
+
+points:
+"Know the regions of the stomach, major cell types and basic gastric secretions.",
+
+animation:null,
+
+youtube:
+"https://www.youtube.com/results?search_query=stomach+anatomy+physiology+medical+students"
+},
+
+pancreas:{
+icon:"🟡",
+name:"Pancreas",
+system:"Digestive / Endocrine System",
+
+location:
+"Located posterior to the stomach and extending from the duodenum toward the spleen.",
+
+anatomy:
+"Parts\n• Head\n• Neck\n• Body\n• Tail\n\nIt has both exocrine and endocrine components.",
+
+function:
+"The exocrine pancreas produces digestive enzymes. The endocrine pancreas produces hormones including insulin and glucagon.",
+
+blood:
+"Arterial supply comes mainly from branches of the coeliac trunk and superior mesenteric artery.",
+
+physiology:
+"Pancreatic enzymes contribute to digestion of carbohydrates, proteins and fats. Insulin and glucagon help regulate blood glucose.",
+
+clinical:
+"Important topics include pancreatitis, pancreatic cancer and diabetes mellitus.",
+
+points:
+"Remember the dual exocrine and endocrine roles of the pancreas.",
+
+animation:null,
+
+youtube:
+"https://www.youtube.com/results?search_query=pancreas+anatomy+physiology+medical+students"
+},
+
+intestine:{
+icon:"🌀",
+name:"Intestines",
+system:"Digestive System",
+
+location:
+"Occupy much of the abdominal cavity and extend from the stomach to the anus.",
+
+anatomy:
+"Small intestine\n• Duodenum\n• Jejunum\n• Ileum\n\nLarge intestine\n• Caecum\n• Colon\n• Rectum\n• Anal canal",
+
+function:
+"The small intestine is the major site of digestion and nutrient absorption. The large intestine absorbs water and participates in formation of stool.",
+
+blood:
+"Arterial supply is mainly derived from branches of the coeliac trunk and superior mesenteric and inferior mesenteric arteries depending on the region.",
+
+physiology:
+"Peristalsis and segmentation move and mix intestinal contents. Villi and microvilli increase the absorptive surface area.",
+
+clinical:
+"Important topics include inflammatory bowel disease, intestinal obstruction, appendicitis and malabsorption.",
+
+points:
+"Know the divisions of the small and large intestine and the basic principles of absorption.",
+
+animation:null,
+
+youtube:
+"https://www.youtube.com/results?search_query=small+large+intestine+anatomy+medical+students"
+}
+
+};
+
+
+/* ============================================
+   SYSTEMS
+============================================ */
+
+const systems=[
+
+["🧠","Nervous System",
+"Brain, spinal cord and peripheral nerves.",
+["Brain","Spinal cord","Neurons","CNS","PNS","Cranial nerves"]],
+
+["❤️","Cardiovascular System",
+"Heart and blood vessels.",
+["Heart","Arteries","Veins","Capillaries","Cardiac cycle","Blood pressure"]],
+
+["🫁","Respiratory System",
+"Airways and pulmonary gas exchange.",
+["Nose","Pharynx","Larynx","Trachea","Bronchi","Alveoli"]],
+
+["🍽️","Digestive System",
+"Digestion and absorption.",
+["Mouth","Oesophagus","Stomach","Small intestine","Large intestine","Liver","Pancreas"]],
+
+["🫘","Urinary System",
+"Kidneys and urinary tract.",
+["Kidney","Nephron","Ureter","Bladder","Urethra","Urine formation"]],
+
+["🦴","Skeletal System",
+"Bones, cartilage and joints.",
+["Bones","Joints","Cartilage","Axial skeleton","Appendicular skeleton"]],
+
+["💪","Musculoskeletal System",
+"Muscles and movement.",
+["Skeletal muscle","Tendons","Ligaments","Muscle contraction","Movement"]],
+
+["🛡️","Immune System",
+"Defense and immune responses.",
+["Innate immunity","Adaptive immunity","Antibodies","Lymphocytes","Inflammation"]],
+
+["🧪","Endocrine System",
+"Hormones and endocrine organs.",
+["Pituitary","Thyroid","Adrenal glands","Pancreas","Hormones"]]
+
+];
+
+
+/* ============================================
+   NAVIGATION
+============================================ */
+
+function showPage(id){
+
+ document.querySelectorAll(".page")
+ .forEach(x=>x.classList.remove("active"));
+
+ document.getElementById(id)
+ .classList.add("active");
+
+ document.querySelectorAll(".navBtn")
+ .forEach(x=>{
+  x.classList.toggle(
+   "active",
+   x.dataset.page===id
+  );
+ });
+
+ window.scrollTo(0,0);
+
+ if(id==="notes"){
+  document.getElementById("notesArea").value=
+  localStorage.getItem("medicalNotes")||"";
+ }
+
+}
+
+
+/* ============================================
+   ANATOMY
+============================================ */
+
+let selected=null;
+let scale=1;
+let rotation=0;
+
+function openOrgan(key){
+
+ showPage("anatomy");
+
+ showOrgans();
+
+ selectOrgan(key);
+
+}
+
+
+function selectOrgan(key){
+
+ const o=organs[key];
+
+ if(!o)return;
+
+ selected=key;
+
+ document.querySelectorAll(".organ")
+ .forEach(x=>x.classList.remove("selected"));
+
+ document.querySelectorAll(
+  `[data-organ="${key}"]`
+ ).forEach(x=>x.classList.add("selected"));
+
+ document.getElementById("detailIcon")
+ .innerText=o.icon;
+
+ document.getElementById("detailName")
+ .innerText=o.name;
+
+ document.getElementById("detailSystem")
+ .innerText=o.system;
+
+ document.getElementById("detailLocation")
+ .innerText=o.location;
+
+ document.getElementById("detailAnatomy")
+ .innerText=o.anatomy;
+
+ document.getElementById("detailFunction")
+ .innerText=o.function;
+
+ document.getElementById("detailBlood")
+ .innerText=o.blood;
+
+ document.getElementById("detailPhysiology")
+ .innerText=o.physiology;
+
+ document.getElementById("detailClinical")
+ .innerText=o.clinical;
+
+ document.getElementById("detailPoints")
+ .innerText=o.points;
+
+ markStudied(key);
+
+}
+
+
+function showOrgans(){
+
+ document.querySelectorAll(".organ")
+ .forEach(x=>x.classList.add("show"));
+
+}
+
+
+function hideOrgans(){
+
+ stopAnimations();
+
+ document.querySelectorAll(".organ")
+ .forEach(x=>{
+  x.classList.remove("show");
+  x.classList.remove("selected");
+ });
+
+ selected=null;
+
+}
+
+
+function zoomModel(amount){
+
+ scale+=amount;
+
+ if(scale<.65)scale=.65;
+ if(scale>1.8)scale=1.8;
+
+ updateModel();
+
+}
+
+
+function updateModel(){
+
+ document.getElementById("model").style.transform=
+ `translate(-50%,-48%)
+ rotateY(${rotation}deg)
+ scale(${scale})`;
+
+}
+
+
+function resetModel(){
+
+ scale=1;
+ rotation=0;
+
+ updateModel();
+
+ hideOrgans();
+
+}
+
+
+function animateOrgan(){
+
+ stopAnimations();
+
+ if(selected==="heart"){
+
+  document.querySelector(".heart")
+  .classList.add("heartbeat");
+
+ }
+
+ if(selected==="lungs"){
+
+  document.querySelectorAll(".lung")
+  .forEach(x=>x.classList.add("breathe"));
+
+ }
+
+ if(selected==="brain"){
+
+  document.querySelector(".brain")
+  .classList.add("brainPulse");
+
+ }
+
+}
+
+
+function stopAnimations(){
+
+ document.querySelector(".heart")
+ ?.classList.remove("heartbeat");
+
+ document.querySelectorAll(".lung")
+ .forEach(x=>x.classList.remove("breathe"));
+
+ document.querySelector(".brain")
+ ?.classList.remove("brainPulse");
+
+}
+
+
+function openVideo(){
+
+ if(selected && organs[selected]){
+
+  window.open(
+   organs[selected].youtube,
+   "_blank"
+  );
+
+ }
+
+}
+
+
+/* ============================================
+   DRAG ROTATION
+============================================ */
+
+let dragging=false;
+let lastX=0;
+
+const model=document.getElementById("model");
+
+model.addEventListener("pointerdown",e=>{
+
+ dragging=true;
+ lastX=e.clientX;
+
+});
+
+window.addEventListener("pointermove",e=>{
+
+ if(!dragging)return;
+
+ rotation+=(e.clientX-lastX)*.6;
+
+ updateModel();
+
+ lastX=e.clientX;
+
+});
+
+window.addEventListener("pointerup",()=>{
+ dragging=false;
+});
+
+
+/* ============================================
+   SYSTEM SEARCH
+============================================ */
+
+function renderSystems(list=systems){
+
+ const box=document.getElementById("systemList");
+
+ box.innerHTML="";
+
+ list.forEach(s=>{
+
+  const div=document.createElement("div");
+
+  div.className="card systemCard";
+
+  div.innerHTML=`
+
+  <div class="systemTop">
+
+   <div class="icon">${s[0]}</div>
+
+   <div>
+    <h3>${s[1]}</h3>
+    <div class="sub">${s[2]}</div>
+   </div>
+
+  </div>
+
+  <div class="topicTags">
+
+   ${s[3].map(
+    x=>`<span class="badge">${x}</span>`
+   ).join("")}
+
+  </div>
+
+  `;
+
+  box.appendChild(div);
+
+ });
+
+}
+
+
+document.getElementById("systemSearch")
+.addEventListener("input",function(){
+
+ const q=this.value.toLowerCase();
+
+ renderSystems(
+  systems.filter(s=>
+   s[1].toLowerCase().includes(q) ||
+   s[2].toLowerCase().includes(q) ||
+   s[3].some(x=>
+    x.toLowerCase().includes(q)
+   )
+  )
+ );
+
+});
+
+
+/* ============================================
+   QUIZ
+============================================ */
+
+const questions=[
+
+{
+q:"Which chamber pumps oxygenated blood into systemic circulation?",
+o:["Right atrium","Right ventricle","Left atrium","Left ventricle"],
+a:3
+},
+
+{
+q:"What is the functional unit of the kidney?",
+o:["Alveolus","Nephron","Neuron","Osteon"],
+a:1
+},
+
+{
+q:"Where does most pulmonary gas exchange occur?",
+o:["Trachea","Bronchi","Alveoli","Larynx"],
+a:2
+},
+
+{
+q:"Which organ produces bile?",
+o:["Stomach","Liver","Kidney","Heart"],
+a:1
+},
+
+{
+q:"Which structure is part of the central nervous system?",
+o:["Brain","Skin","Femur","Liver"],
+a:0
+},
+
+{
+q:"Which valve lies between the left atrium and left ventricle?",
+o:["Tricuspid","Pulmonary","Mitral","Aortic"],
+a:2
+},
+
+{
+q:"Which vessel carries blood from the left ventricle?",
+o:["Pulmonary artery","Aorta","Vena cava","Pulmonary vein"],
+a:1
+},
+
+{
+q:"Which hormone lowers blood glucose?",
+o:["Glucagon","Insulin","Adrenaline","Cortisol"],
+a:1
+},
+
+{
+q:"Which part of the brain is strongly associated with coordination?",
+o:["Cerebellum","Thalamus","Hypothalamus","Medulla"],
+a:0
+},
+
+{
+q:"Which structure carries urine from the kidney to the bladder?",
+o:["Urethra","Ureter","Nephron","Renal artery"],
+a:1
+},
+
+{
+q:"Which cells produce hydrochloric acid in the stomach?",
+o:["Chief cells","Parietal cells","Goblet cells","Beta cells"],
+a:1
+},
+
+{
+q:"What is the main site of nutrient absorption?",
+o:["Stomach","Small intestine","Large intestine","Oesophagus"],
+a:1
+}
+
+];
+
+let qi=0;
+let score=0;
+let answered=false;
+
+function startQuiz(){
+
+ qi=0;
+ score=0;
+
+ renderQuestion();
+
+}
+
+
+function renderQuestion(){
+
+ if(qi>=questions.length){
+
+  document.getElementById("quizCounter")
+  .innerText="Completed";
+
+  document.getElementById("question")
+  .innerText="Quiz Complete";
+
+  document.getElementById("options")
+  .innerHTML=
+  `<div class="score">${score}/${questions.length}</div>`;
+
+  document.getElementById("feedback")
+  .innerText=
+  "Try again after reviewing the topics.";
+
+  document.getElementById("nextBtn")
+  .innerText="Restart Quiz";
+
+  return;
+
+ }
+
+ answered=false;
+
+ const q=questions[qi];
+
+ document.getElementById("quizCounter")
+ .innerText=
+ `Question ${qi+1} / ${questions.length}`;
+
+ document.getElementById("question")
+ .innerText=q.q;
+
+ document.getElementById("feedback")
+ .innerText="";
+
+ document.getElementById("nextBtn")
+ .innerText="Next →";
+
+ const box=document.getElementById("options");
+
+ box.innerHTML="";
+
+ q.o.forEach((text,i)=>{
+
+  const b=document.createElement("button");
+
+  b.className="option";
+  b.innerText=text;
+
+  b.onclick=()=>answer(i,b);
+
+  box.appendChild(b);
+
+ });
+
+}
+
+
+function answer(choice,button){
+
+ if(answered)return;
+
+ answered=true;
+
+ const q=questions[qi];
+
+ const all=document.querySelectorAll(".option");
+
+ all.forEach((b,i)=>{
+
+  if(i===q.a)
+   b.classList.add("correct");
+
+ });
+
+ if(choice===q.a){
+
+  score++;
+
+  document.getElementById("feedback")
+  .innerText="✅ Correct";
+
+ }else{
+
+  button.classList.add("wrong");
+
+  document.getElementById("feedback")
+  .innerText=
+  "❌ Correct answer: "+q.o[q.a];
+
+ }
+
+}
+
+
+function nextQuestion(){
+
+ if(qi>=questions.length){
+
+  startQuiz();
+  return;
+
+ }
+
+ qi++;
+
+ renderQuestion();
+
+}
+
+
+/* ============================================
+   FLASHCARDS
+============================================ */
+
+const flashcards=[
+
+["What is the functional unit of the kidney?","The nephron."],
+
+["What are the four chambers of the heart?","Right atrium, right ventricle, left atrium and left ventricle."],
+
+["Where does pulmonary gas exchange mainly occur?","Across the alveolar-capillary membrane."],
+
+["What is the main function of the liver?","It performs many metabolic, synthetic, storage and detoxification functions."],
+
+["What are the major parts of the brain?","Cerebrum, cerebellum and brainstem."],
+
+["What carries urine from the kidney to the bladder?","The ureter."],
+
+["What are the two major divisions of the nervous system?","Central nervous system and peripheral nervous system."],
+
+["What is the main function of red blood cells?","Transport oxygen and contribute to carbon dioxide transport."],
+
+["Which organ produces insulin?","The endocrine pancreas, specifically pancreatic beta cells."],
+
+["What is the main site of gas exchange?","The alveoli of the lungs."]
+
+];
+
+let fi=0;
+let front=true;
+
+function renderFlash(){
+
+ document.getElementById("flashCard")
+ .innerText=
+ front
+ ?flashcards[fi][0]
+ :flashcards[fi][1];
+
+}
+
+function flipCard(){
+
+ front=!front;
+
+ renderFlash();
+
+}
+
+function nextCard(){
+
+ fi=(fi+1)%flashcards.length;
+
+ front=true;
+
+ renderFlash();
+
+}
+
+function prevCard(){
+
+ fi=(fi-1+flashcards.length)
+ %flashcards.length;
+
+ front=true;
+
+ renderFlash();
+
+}
+
+
+/* ============================================
+   RESOURCES
+============================================ */
+
+const resources=[
+
+["🧠","Brain Anatomy",
+"https://www.youtube.com/results?search_query=brain+anatomy+medical+students"],
+
+["❤️","Heart Anatomy",
+"https://www.youtube.com/results?search_query=heart+anatomy+medical+students"],
+
+["🫁","Respiratory System",
+"https://www.youtube.com/results?search_query=respiratory+system+anatomy+physiology+medical+students"],
+
+["🫘","Renal Physiology",
+"https://www.youtube.com/results?search_query=renal+physiology+nephron+medical+students"],
+
+["🍽️","Digestive System",
+"https://www.youtube.com/results?search_query=digestive+system+anatomy+physiology+medical+students"],
+
+["🦴","Skeletal Anatomy",
+"https://www.youtube.com/results?search_query=skeletal+system+anatomy+medical+students"],
+
+["💪","Muscle Physiology",
+"https://www.youtube.com/results?search_query=muscle+physiology+medical+students"],
+
+["🦠","Medical Microbiology",
+"https://www.youtube.com/results?search_query=medical+microbiology+students"],
+
+["🧪","Medical Biochemistry",
+"https://www.youtube.com/results?search_query=medical+biochemistry+students"],
+
+["💊","Medical Pharmacology",
+"https://www.youtube.com/results?search_query=medical+pharmacology+students"],
+
+["🔬","Medical Histology",
+"https://www.youtube.com/results?search_query=medical+histology+students"],
+
+["🩺","Medical Pathology",
+"https://www.youtube.com/results?search_query=medical+pathology+students"]
+
+];
+
+
+function renderResources(list=resources){
+
+ const box=document.getElementById("resourceList");
+
+ box.innerHTML="";
+
+ list.forEach(r=>{
+
+  const div=document.createElement("div");
+
+  div.className="card";
+
+  div.innerHTML=`
+
+   <div style="display:flex;gap:10px;align-items:center">
+
+    <div class="icon">${r[0]}</div>
+
+    <div style="flex:1">
+
+     <h3>${r[1]}</h3>
+
+     <div class="small">
+     Educational video search
+     </div>
+
+    </div>
+
+    <button
+    class="action"
+    onclick="window.open('${r[2]}','_blank')">
+    Open
+    </button>
+
+   </div>
+
+  `;
+
+  box.appendChild(div);
+
+ });
+
+}
+
+
+document.getElementById("resourceSearch")
+.addEventListener("input",function(){
+
+ const q=this.value.toLowerCase();
+
+ renderResources(
+  resources.filter(r=>
+   r[1].toLowerCase().includes(q)
+  )
+ );
+
+});
+
+
+/* ============================================
+   NOTES
+============================================ */
+
+function openNotes(){
+
+ showPage("notes");
+
+ document.getElementById("notesArea")
+ .value=
+ localStorage.getItem("medicalNotes")||"";
+
+}
+
+function saveNotes(){
+
+ localStorage.setItem(
+  "medicalNotes",
+  document.getElementById("notesArea").value
+ );
+
+ alert("Notes saved.");
+
+}
+
+function clearNotes(){
+
+ if(confirm("Delete all notes?")){
+
+  localStorage.removeItem("medicalNotes");
+
+  document.getElementById("notesArea")
+  .value="";
+
+ }
+
+}
+
+
+/* ============================================
+   PROGRESS
+============================================ */
+
+function markStudied(key){
+
+ let list=
+ JSON.parse(
+  localStorage.getItem("studiedOrgans")||"[]"
+ );
+
+ if(!list.includes(key)){
+
+  list.push(key);
+
+  localStorage.setItem(
+   "studiedOrgans",
+   JSON.stringify(list)
+  );
+
+ }
+
+ updateProgress();
+
+}
+
+
+function updateProgress(){
+
+ const list=
+ JSON.parse(
+  localStorage.getItem("studiedOrgans")||"[]"
+ );
+
+ const percent=
+ Math.round(
+  list.length/Object.keys(organs).length*100
+ );
+
+ document.getElementById("progressText")
+ .innerText=percent+"%";
+
+ document.getElementById("progressBar")
+ .style.width=percent+"%";
+
+}
+
+
+/* ============================================
+   THEME
+============================================ */
+
+let light=false;
+
+function toggleTheme(){
+
+ light=!light;
+
+ if(light){
+
+  document.documentElement
+  .style.setProperty("--bg","#eef5f8");
+
+  document.documentElement
+  .style.setProperty("--panel","#ffffff");
+
+  document.documentElement
+  .style.setProperty("--panel2","#e7f0f4");
+
+  document.documentElement
+  .style.setProperty("--text","#10232e");
+
+  document.documentElement
+  .style.setProperty("--muted","#526d79");
+
+ }else{
+
+  document.documentElement
+  .style.setProperty("--bg","#06121d");
+
+  document.documentElement
+  .style.setProperty("--panel","#0b1e2d");
+
+  document.documentElement
+  .style.setProperty("--panel2","#102b3e");
+
+  document.documentElement
+  .style.setProperty("--text","#eef8fc");
+
+  document.documentElement
+  .style.setProperty("--muted","#9bb2bf");
+
+ }
+
+}
+
+
+/* ============================================
+   INITIALIZE
+============================================ */
+
+renderSystems();
+
+renderResources();
+
+startQuiz();
+
+renderFlash();
+
+updateProgress();
+
+hideOrgans();
+
+</script>
+
+</body>
+</html>
